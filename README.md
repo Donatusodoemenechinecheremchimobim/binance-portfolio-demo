@@ -17,7 +17,7 @@ Works in restricted regions by running in **mock mode** (no API keys required). 
 
 ## Quick start (mock mode)
 ```bash
-git clone https://github.com/yourusername/binance-portfolio-demo.git
+git clone https://github.com/redrex1034/binance-portfolio-demo.git
 cd binance-portfolio-demo
 python3 -m venv venv
 source venv/bin/activate      # or venv\\Scripts\\activate on Windows
