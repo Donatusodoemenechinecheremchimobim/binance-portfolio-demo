@@ -25,6 +25,21 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
+from pathlib import Path
+
+LOG_DIR = Path("logs")
+LOG_DIR.mkdir(exist_ok=True)
+LOG_FILE = LOG_DIR / "gui.log"
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler(LOG_FILE, encoding="utf-8"),
+        logging.StreamHandler()
+    ]
+)
+logging.info(f"User executed BUY: {symbol}, {amount}")
 
 from binance.exceptions import BinanceAPIException, BinanceOrderException
 
