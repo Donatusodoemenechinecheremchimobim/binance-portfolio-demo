@@ -1,232 +1,182 @@
-# Binance Portfolio Demo (CLI + GUI)
-![Dashboard](assets/dashboard1.png)
+# 💹 Binance Portfolio Demo (CLI + GUI)  
 
-### Buy Simulation
-![Buy Example](dashboard2.png)
-![Dashboard1](assets/dashboard3.png)
+🟢 **Live Mode** — Connect to Binance Testnet  
+⚫ **Mock Mode** — Safe offline simulation  
 
-
-
-A portfolio-ready demo that simulates a Binance futures trading bot.  
-Works in restricted regions by running in **mock mode** (no API keys required). If you have `python-binance` and testnet keys you can enable real testnet mode.
-
-## Features
-- CLI: buy/sell/prices/balance/calc-size/trade (simulated)
-- GUI: Streamlit app to view prices, portfolio and simulate trades
-- Mock fallback (file-backed JSON): runs anywhere without Binance API access
-
-## Quick start (mock mode)
-```bash
-git clone https://github.com/Donatusodoemenechinecheremchimobim
-/binance-portfolio-demo.git
-cd binance-portfolio-demo
-python3 -m venv venv
-source venv/bin/activate      # or venv\\Scripts\\activate on Windows
-pip install -r requirements.txt
-# Run CLI examples
-python trading_bot.py prices
-python trading_bot.py balance
-python trading_bot.py buy BTCUSDT 0.001
-python trading_bot.py sell BTCUSDT 0.001
-# Run GUI
-streamlit run gui_app.py
-
-📘 README.md
-# 💹 Binance Portfolio Demo (CLI + GUI)
-
-A simulated **Binance trading bot** built with **Python** and **Streamlit**, designed for portfolio use and learning.  
-Runs entirely in **mock mode** (no real API required) and works even in regions where Binance API creation is restricted.
+A simulated **Binance trading bot** built with **Python** and **Streamlit**, designed for education, portfolio tracking, and demo trading.  
+Run it fully offline in **Mock Mode**, or switch to **Real Mode** with your Binance Testnet API keys — all directly from the Streamlit sidebar.
 
 <p align="center">
-  <img src="assets/dashboard-dark.png" width="800" alt="Dashboard Screenshot">
+  <img src="assets/dashboard1.png" width="800" alt="Dashboard Preview">
 </p>
 
 ---
 
 ## 🚀 Features
 
-✅ **CLI Trading Bot**
-- Simulated Buy/Sell orders  
-- Portfolio balance management  
-- Risk-based position sizing  
+### 🧠 Dual Mode Switching
+- 🟢 **Real Mode:** Connect to Binance Testnet with your API keys.  
+- ⚫ **Mock Mode:** Safe, offline simulation — no keys required.  
+- Toggle between modes instantly in the GUI sidebar.
+
+### 💻 CLI Trading Bot
+- Simulated buy/sell, balance, and price queries  
+- Risk-based position sizing (`calc-size`)  
 - Optional Binance Testnet API integration  
 
-✅ **Streamlit GUI**
-- Real-time mock price display  
+### 🌐 Streamlit GUI
+- Real-time mock or testnet prices  
 - Interactive trade simulation  
 - Portfolio visualization (pie chart)  
-- Dark mode interface for presentation  
+- Dark modern interface  
+- Instant toggle between mock and real trading  
 
-✅ **Safe & Offline**
-- No real API keys required  
-- Works with mock JSON data  
-- Perfect for restricted countries and demo portfolios  
+### 🔒 Safe & Offline
+- Default mode uses **mock JSON data**  
+- No Binance API connection needed  
+- Real keys stored only in memory (session-based)
 
 ---
 
-## 🧠 Project Structure
+## 📂 Project Structure
 
-
-
+```
 binance-portfolio-demo/
 ├── data/
-│ ├── mock_prices.json
-│ └── mock_balance.json
+│   ├── mock_prices.json
+│   └── mock_balance.json
 ├── assets/
-│ └── dashboard-dark.png
-├── trading_bot.py # CLI bot (mock + optional real)
-├── gui_app.py # Streamlit dashboard
+│   ├── dashboard1.png
+│   ├── dashboard2.png
+│   └── dashboard3.png
+├── trading_bot.py       # CLI bot (mock + optional real)
+├── gui_app.py           # Streamlit GUI dashboard (mock + real switch)
 ├── requirements.txt
 └── README.md
-
+```
 
 ---
 
-## ⚙️ Setup Instructions (Windows)
+## ⚙️ Installation & Setup
 
-### 1️⃣ Install Python 3.11
-> ⚠️ Python 3.14 is **not supported** by Streamlit or PyArrow.
-
-- Download Python 3.11 from the official site:  
-  👉 [https://www.python.org/downloads/release/python-3110/](https://www.python.org/downloads/release/python-3110/)
-- During installation:
-  - ✅ Check **“Add Python to PATH”**
-  - ✅ Choose **“Install for all users”**
-
-Verify installation:
+### 1️⃣ Clone the Repository
 ```bash
-python --version
+git clone https://github.com/Donatusodoemenechinecheremchimobim/binance-portfolio-demo.git
+cd binance-portfolio-demo
+```
 
+### 2️⃣ Create a Virtual Environment
+```bash
+python3 -m venv venv
+source venv/bin/activate     # macOS/Linux
+venv\Scripts\activate      # Windows
+```
 
-You should see:
-
-Python 3.11.x
-
-2️⃣ Create a Virtual Environment
-
-In your project folder:
-
-python -m venv venv
-
-🧩 Activating on Windows (PowerShell)
-
-By default, PowerShell blocks scripts.
-If you see this error:
-
-.\venv\Scripts\Activate.ps1 cannot be loaded because running scripts is disabled on this system
-
-
-👉 Run PowerShell as Administrator, then execute:
-
-Set-ExecutionPolicy RemoteSigned
-
-
-Type Y and press Enter.
-
-Now activate the environment:
-
-.\venv\Scripts\Activate
-
-
-When active, you’ll see (venv) at the start of your prompt.
-
-✅ Optional (for security): after you’re done, reset it:
-
-Set-ExecutionPolicy Restricted
-
-3️⃣ Install Dependencies
-pip install --upgrade pip
+### 3️⃣ Install Requirements
+```bash
 pip install -r requirements.txt
+```
 
-
-If you don’t have a requirements.txt yet:
-
+If `requirements.txt` is missing:
+```bash
 pip install streamlit matplotlib
+```
 
-💻 Run the App
-▶️ Run the CLI
+---
 
-Simulate trades and view balances:
+## ▶️ Usage
 
+### 🧩 Run in Mock Mode (default)
+```bash
+# CLI examples
 python trading_bot.py prices
-python trading_bot.py buy BTCUSDT 0.01
 python trading_bot.py balance
+python trading_bot.py buy BTCUSDT 0.001
 
-🌐 Run the GUI
-
-Launch the Streamlit dashboard:
-
+# GUI Dashboard
 streamlit run gui_app.py
+```
+Mock mode uses local JSON data — no network or API keys needed.
 
+---
 
-Then open your browser at http://localhost:8501
-.
+### 🔑 Switch to Real Mode (Binance Testnet)
 
-🧪 Optional: Binance Testnet Setup
-
-If you later obtain Binance testnet API keys:
-
-Copy .env.example → .env
-
-Fill in:
-
-BINANCE_API_KEY=your_testnet_key
-BINANCE_API_SECRET=your_testnet_secret
-
-
-Run CLI with:
-
-python trading_bot.py --use-real --api-key YOUR_KEY --api-secret YOUR_SECRET --testnet prices
-
-
-⚠️ Only use testnet keys — never live keys for demos.
-
-🖼️ Screenshots
-Dashboard Overview
-<p align="center"> <img src="assets/dashboard-dark.png" width="800" alt="Dark Mode Dashboard"> </p>
-💡 Troubleshooting
-🔹 “Python was not found” error
-
-Ensure Python 3.11 is installed and added to PATH.
-
-If CMD still doesn’t recognize Python:
-
-Open Settings → Apps → App Execution Aliases
-
-Turn off all “Python” aliases.
-
-🔹 “Activate.ps1 cannot be loaded” error
-
-Fix by running:
-
-Set-ExecutionPolicy RemoteSigned
-
+In the **Streamlit sidebar**, switch **“Mode” → “Real Mode”**.
 
 Then:
+1. Enter your **Testnet API Key** and **Secret**  
+2. Click **Save API Keys**  
+3. You’re now connected to the **Binance Testnet** — live data, no real funds!
 
-.\venv\Scripts\Activate
+> ⚠️ Always use Binance **Testnet** keys for demo purposes.  
+> Never share or use live keys in public projects.
 
-🔹 Streamlit / PyArrow installation error
+---
 
-Ensure you’re using Python 3.10 or 3.11, not 3.14.
-Then reinstall:
+## 🧠 Example Commands (CLI)
 
+```bash
+python trading_bot.py prices
+python trading_bot.py buy BTCUSDT 0.01
+python trading_bot.py sell BTCUSDT 0.01
+python trading_bot.py balance
+python trading_bot.py calc-size BTCUSDT 1 0.01 2
+```
+
+---
+
+## 🖼️ Screenshots
+
+### Dashboard Overview
+<p align="center"><img src="assets/dashboard1.png" width="800"></p>
+
+### Buy Simulation
+<p align="center"><img src="assets/dashboard2.png" width="800"></p>
+
+### Portfolio View
+<p align="center"><img src="assets/dashboard3.png" width="800"></p>
+
+---
+
+## 💡 Troubleshooting
+
+**🔹 “Python not found” error:**  
+Ensure Python 3.11 is installed and added to PATH.
+
+**🔹 PowerShell script error:**  
+Run:
+```bash
+Set-ExecutionPolicy RemoteSigned
+```
+Then activate your environment.
+
+**🔹 Streamlit install error:**  
+Make sure you’re on Python 3.10 or 3.11:
+```bash
 pip install streamlit matplotlib
+```
 
-🪄 Portfolio Tips
+---
 
-Add screenshots (assets/) to your README for a polished GitHub look.
+## 🧾 License
 
-Mention that the bot uses mock/testnet data due to Binance API restrictions.
+**MIT License © 2025 Donatus-ododemene Chinecherem Chimobim**
 
-You can demo this project safely without risking any funds.
+---
 
-🧾 License
+## 👤 Author
 
-MIT License © 2025 Donatus-ododemene chinecherem chimobim
+**Donatus-ododemene Chinecherem Chimobim**  
+🔗 [GitHub Profile](https://github.com/Donatusodoemenechinecheremchimobim)
 
-👤 Author
+---
 
-Donatus-ododemene chinecherem chimobim
-🔗 GitHub
+### 🌕 Summary
 
+| Mode | Description | API Key Required | Risk |
+|------|--------------|------------------|------|
+| ⚫ **Mock Mode** | Safe local simulation | ❌ No | None |
+| 🟢 **Real Mode** | Connects to Binance Testnet | ✅ Yes | Testnet Only |
+
+> Switch between modes anytime in the sidebar — the dashboard updates instantly.
