@@ -11,7 +11,7 @@ st.set_page_config(
     page_icon="💹"
 )
 
-# --- Custom Dark Theme Styling ---
+# --- Custom Dark Theme + Animated Banners ---
 st.markdown(
     """
     <style>
@@ -40,11 +40,25 @@ st.markdown(
         background-color: #28CC7A;
         color: #FFFFFF;
     }
-    .stTable {
-        background-color: #161A21;
+    .banner {
+        animation: slideDown 0.6s ease-out;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 15px;
     }
-    .stMarkdown, .stJson {
-        color: #E0E0E0;
+    .banner-warning {
+        background-color: #ff4d4d;
+        color: white;
+    }
+    .banner-success {
+        background-color: #33cc66;
+        color: white;
+    }
+    @keyframes slideDown {
+        0% { transform: translateY(-50px); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
     }
     </style>
     """,
@@ -54,15 +68,10 @@ st.markdown(
 # --- Sidebar: Mode & API Configuration ---
 st.sidebar.header("🔑 API Configuration")
 
-mode = st.sidebar.radio(
-    "Select Mode:",
-    ["Mock Mode", "Real Mode"],
-    index=0
-)
-
+mode = st.sidebar.radio("Select Mode:", ["Mock Mode", "Real Mode"], index=0)
 use_real = mode == "Real Mode"
 
-# --- API Handling ---
+# --- API Key Input & Saving ---
 if use_real:
     st.sidebar.success("🟢 Real Mode active — Binance Testnet connection enabled.")
     api_key_input = st.sidebar.text_input("Enter API Key", type="password")
@@ -78,16 +87,46 @@ if use_real:
 else:
     st.sidebar.info("⚫ Mock Mode active — using local JSON data (no API keys required).")
 
-# Load API keys (session or environment)
+# Load keys
 api_key = st.session_state.get("api_key", os.getenv("BINANCE_API_KEY"))
 api_secret = st.session_state.get("api_secret", os.getenv("BINANCE_API_SECRET"))
 
-# Initialize bot safely
-try:
-    bot = tb.build_bot(api_key=api_key, api_secret=api_secret, use_real=use_real)
-except Exception as e:
-    bot = None
-    st.error(f"❌ Failed to initialize trading bot: {e}")
+# --- Initialize bot ---
+bot = None
+connection_error = None
+connected = False
+
+if use_real:
+    try:
+        if api_key and api_secret:
+            bot = tb.build_bot(api_key=api_key, api_secret=api_secret, use_real=True)
+            connected = True
+        else:
+            connection_error = "🚫 No API connection detected — please enter your Binance Testnet API keys in the sidebar."
+    except Exception as e:
+        connection_error = f"❌ Failed to connect to Binance API: {e}"
+else:
+    bot = tb.build_bot(api_key=None, api_secret=None, use_real=False)
+
+# --- Display banners ---
+if use_real and not st.session_state.get("hide_banner", False):
+    if connection_error:
+        # Red warning banner
+        col1, col2 = st.columns([0.9, 0.1])
+        with col1:
+            st.markdown(
+                f"<div class='banner banner-warning'>{connection_error}</div>",
+                unsafe_allow_html=True
+            )
+        with col2:
+            if st.button("Dismiss", key="dismiss_banner"):
+                st.session_state["hide_banner"] = True
+    elif connected:
+        # Green success banner
+        st.markdown(
+            "<div class='banner banner-success'>🟢 Connected to Binance Testnet — Live Mode Active</div>",
+            unsafe_allow_html=True
+        )
 
 # --- Dynamic Title ---
 if use_real:
@@ -109,9 +148,7 @@ action = st.sidebar.radio(
 if action == "View Prices":
     st.subheader("📈 Current Market Prices")
 
-    if use_real and (not api_key or not api_secret):
-        # No keys provided in real mode
-        st.warning("⚠️ Real mode active, but no API keys detected.")
+    if use_real and not connected:
         df_unavailable = pd.DataFrame({
             "symbol": ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT"],
             "price": ["Unavailable (no API connection)"] * 4
@@ -124,7 +161,7 @@ if action == "View Prices":
             if not use_real:
                 st.caption("Showing simulated prices — switch to Real Mode for live data.")
         except Exception:
-            st.error("❌ Unable to fetch prices from Binance API. Check your keys or network.")
+            st.error("❌ Unable to fetch prices from Binance API.")
             df_unavailable = pd.DataFrame({
                 "symbol": ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT"],
                 "price": ["Unavailable (API error)"] * 4
